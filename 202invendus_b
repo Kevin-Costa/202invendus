@@ -1,0 +1,239 @@
+#!/usr/bin/python
+
+import matplotlib.pyplot as plt
+import os, sys
+import re
+import math
+
+##########################################################################
+
+try:
+    os.environ["DISPLAY"]
+except KeyError:
+    print('\033[1;31mProbleme avec l\'environnement\033[0m')
+    sys.exit(1)
+
+############################GLOBAL########################################
+
+resy10 = list()
+resy20 = list()
+resy30 = list()
+resy40 = list()
+resy50 = list()
+resx = list()
+resy = list()
+resz = list()
+listx = list()
+espx = list()
+espy = list()
+espz = list()
+varx = list()
+vary = list()
+varz = list()
+
+##########################################################################
+
+def init_list(a, b):
+    resulty10(a, b)
+    resulty20(a, b)
+    resulty30(a, b)
+    resulty40(a, b)
+    resulty50(a, b)
+    resultx()
+    resultz()
+    resulty()
+    EspX()
+    EspY()
+    EspZ()
+    VarX()
+    VarY()
+    VarZ()
+
+def EspX():
+    result = 10.0 * resx[0] + 20.0 * resx[1] + 30.0 * resx[2] + 40.0 * resx[3] + 50.0 * resx[4]
+    espx.append(result)
+
+def EspY():
+    result = 10.0 * resy10[5] + 20.0 * resy20[5] + 30.0 * resy30[5] + 40.0 * resy40[5] + 50.0 * resy50[5]
+    espy.append(result)
+
+def EspZ():
+    result = 20.0 * resz[0] + 30.0 * resz[1] + 40.0 * resz[2] + 50.0 * resz[3] + 60.0 * resz[4] + 70.0 * resz[5]+ 80.0 * resz[6] + 90.0 * resz[7] + 100.0 * resz[8]
+    espz.append(result)
+
+def VarX():
+    result = 10.0**2 * resx[0] + 20.0**2 * resx[1] + 30.0**2 * resx[2] + 40.0**2 * resx[3] + 50.0**2 * resx[4]
+    result -= espx[0]**2
+    varx.append(result)
+
+def VarY():
+    result = 10.0**2 * resy10[5] + 20.0**2 * resy20[5] + 30.0**2 * resy30[5] + 40.0**2 * resy40[5] + 50.0**2 * resy50[5]
+    result -= espy[0]**2
+    vary.append(result)
+
+def VarZ():
+    result = 20.0**2 * resz[0] + 30.0**2 * resz[1] + 40.0**2 * resz[2] + 50.0**2 * resz[3] + 60.0**2 * resz[4] + 70.0**2 * resz[5]+ 80.0**2 * resz[6] + 90.0**2 * resz[7] + 100.0**2 * resz[8]
+    result -= espz[0]**2
+    varz.append(result)
+
+def resulty():
+    resy.append(resy10[5])
+    resy.append(resy20[5])
+    resy.append(resy30[5])
+    resy.append(resy40[5])
+    resy.append(resy50[5])
+    resy.append(resx[5])
+
+def resultz():
+    i = 0
+    result = 0
+    resz.append(resy10[0])
+    resz.append(resy10[1] + resy20[0])
+    resz.append(resy10[2] + resy20[1] + resy30[0])
+    resz.append(resy10[3] + resy20[2] + resy30[1] + resy40[0])
+    resz.append(resy10[4] + resy20[3] + resy30[2] + resy40[1] + resy50[0])
+    resz.append(resy20[4] + resy30[3] + resy40[2] + resy50[1])
+    resz.append(resy30[4] + resy40[3] + resy50[2])
+    resz.append(resy40[4] + resy50[3])
+    resz.append(resy50[4])
+    while (i < 9):
+        result += resz[i]
+        i += 1
+    resz.append(result)
+
+def resulty10(a, b):
+    i = 0
+    res_all = 0
+    while i < 5:
+        result = ((a - listx[i]) * (b - 10)) / ((5.0 * a - 150.0) * (5.0 * b - 150.0))
+        res_all += result
+        resy10.append(result)
+        i += 1
+    resy10.append(res_all)
+
+def resulty20(a, b):
+    i = 0
+    res_all = 0
+    while i < 5:
+        result = ((a - listx[i]) * (b - 20)) / ((5.0 * a - 150.0) * (5.0 * b - 150.0))
+        res_all += result
+        resy20.append(result)
+        i += 1
+    resy20.append(res_all)
+
+def resulty30(a, b):
+    i = 0
+    res_all = 0
+    while i < 5:
+        result = ((a - listx[i]) * (b - 30)) / ((5.0 * a - 150.0) * (5.0 * b - 150.0))
+        res_all += result
+        resy30.append(result)
+        i += 1
+    resy30.append(res_all)
+
+def resulty40(a, b):
+    i = 0
+    res_all = 0
+    while i < 5:
+        result = ((a - listx[i]) * (b - 40)) / ((5.0 * a - 150.0) * (5.0 * b - 150.0))
+        res_all += result
+        resy40.append(result)
+        i += 1
+    resy40.append(res_all)
+
+def resulty50(a, b):
+    i = 0
+    res_all = 0
+    while i < 5:
+        result = ((a - listx[i]) * (b - 50)) / ((5.0 * a - 150.0) * (5.0 * b - 150.0))
+        res_all += result
+        resy50.append(result)
+        i += 1
+    resy50.append(res_all)
+
+def resultx():
+    i = 0
+    res_all = 0
+    while i < 5:
+        result = resy10[i] + resy20[i] + resy30[i] + resy40[i] + resy50[i]
+        resx.append(result)
+        res_all += result
+        i += 1
+    resx.append(res_all)
+
+def check():
+    error = 0
+    try:
+        a = int(sys.argv[1]);
+    except:
+        print("\033[1;31mVotre 1er arguments n'est pas un nombre\033[0m")
+        sys.exit(1)
+    try:
+       b = int(sys.argv[2]);
+    except:
+        print("\033[1;31mVotre 2eme arguments n'est pas un nombre\033[0m")
+        sys.exit(1)
+    if a <= 50:
+        print("\033[1;31ma est inferieur a 50\033[0m")
+        error = 1
+    if b <= 50:
+        print("\033[1;31mb est inferieur a 50\033[0m")
+        error = 1
+    if error == 1:
+        sys.exit(1)
+
+##########################################################################
+
+def nfile(fichier):
+    fichier.write("\tX=10\tX=20\tX=30\tX=40\tX=50\t loi de Y\n")
+    fichier.write("Y=10\t %.3f" % resy10[0] + "\t %.3f" % resy10[1] + "\t %.3f" % resy10[2] + "\t %.3f" % resy10[3] + "\t %.3f" % resy10[4] + "\t  %.3f\n" % resy10[5])
+    fichier.write("Y=20\t %.3f" % resy20[0] + "\t %.3f" % resy20[1] + "\t %.3f" % resy20[2] + "\t %.3f" % resy20[3] + "\t %.3f" % resy20[4] + "\t  %.3f\n" % resy20[5])
+    fichier.write("Y=30\t %.{0}f".format(p) % resy30[0] + "\t %.{0}f".format(p) % resy30[1] + "\t %.{0}f".format(p) % resy30[2] + "\t %.{0}f".format(p) % resy30[3] + "\t %.{0}f".format(p) % resy30[4] + "\t  %.{0}f\n".format(p) % resy30[5])
+    fichier.write("Y=40\t %.{0}f".format(p) % resy40[0] + "\t %.{0}f".format(p) % resy40[1] + "\t %.{0}f".format(p) % resy40[2] + "\t %.{0}f".format(p) % resy40[3] + "\t %.{0}f".format(p) % resy40[4] + "\t  %.{0}f\n".format(p) % resy40[5])
+    fichier.write("Y=50\t %.{0}f".format(p) % resy50[0] + "\t %.{0}f".format(p) % resy50[1] + "\t %.{0}f".format(p) % resy50[2] + "\t %.{0}f".format(p) % resy50[3] + "\t %.{0}f".format(p) % resy50[4] + "\t  %.{0}f\n".format(p) % resy50[5])
+    fichier.write("Loi de X %.{0}f".format(p) % resx[0] + "\t %.{0}f".format(p) % resx[1] + "\t %.{0}f".format(p) % resx[2] + "\t %.{0}f".format(p) % resx[3] + "\t %.{0}f".format(p) % resx[4] + "\t  %.{0}f\n".format(p) % resx[5])
+    fichier.write("\nmmz\t 20     30     40     50     60     70    80     90     100     total\n")
+    fichier.write("p(Z=z)\t %.{0}f".format(p) % resz[0] + "\t%.{0}f".format(p) % resz[1] + "  %.{0}f".format(p) % resz[2] + "  %.{0}f".format(p) % resz[3] + "  %.{0}f".format(p) % resz[4] + "  %.{0}f".format(p) % resz[5] + " %.{0}f".format(p) % resz[6] + "  %.{0}f".format(p) % resz[7] + "  %.{0}f".format(p) % resz[8] + "   %.{0}f\n".format(p) % resz[9])
+    fichier.write("\nesperance de X : \t%.{0}f\n".format(p) % espx[0])
+    fichier.write("variance de X : \t%.{0}f\n".format(p) % varx[0])
+    fichier.write("esperance de Y : \t%.{0}f\n".format(p) % espy[0])
+    fichier.write("variance de Y : \t%.{0}f\n".format(p) % vary[0])
+    fichier.write("esperance de Z : \t%.{0}f\n".format(p) % espz[0])
+    fichier.write("variance de Z : \t%.{0}f\n".format(p) % varz[0])
+   # fichier.write("\033[0m")
+    fichier.close()
+
+if len(sys.argv) == 3:
+    tmp = 0
+    check()
+    a = int(sys.argv[1])
+    b = int(sys.argv[2])
+    while tmp != 50:
+        listx.append(tmp + 10)
+        tmp += 10
+    p = 3
+    init_list(a, b)
+    nfichier = open("result.txt", "w")
+    nfile(nfichier)
+
+elif len(sys.argv) == 4:
+    tmp = 0
+    check()
+    a = int(sys.argv[1])
+    b = int(sys.argv[2])
+    name = str(sys.argv[3])
+    while tmp != 50:
+        listx.append(tmp + 10)
+        tmp += 10
+    p = 3
+    init_list(a, b)
+    try:
+        nfichier = open(name, "w")
+    except:
+        print("\033[1;31mVotre nom est invalide donc il est remplacer par result.txt\033[0m")
+        nfichier = open("result.txt", "w")
+    nfile(nfichier)
+
+else:
+    print('\033[1;31m./202invendus <a> <b>')
+    print('./202invendus <a> <b> <file name>\033[0m')
